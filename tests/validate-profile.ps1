@@ -54,6 +54,25 @@ foreach ($File in $RequiredFiles) {
     Assert-Exists (Join-Path $RepoRoot $File)
 }
 
+$InstallPs1 = Get-Content -Raw -LiteralPath (Join-Path $RepoRoot "install.ps1")
+$InstallSh = Get-Content -Raw -LiteralPath (Join-Path $RepoRoot "install.sh")
+$Readme = Get-Content -Raw -LiteralPath (Join-Path $RepoRoot "README.md")
+
+foreach ($Expected in @("SCEPTIC_VSCODE_REPO", "SCEPTIC_VSCODE_BRANCH", "git clone")) {
+    if (-not $InstallPs1.Contains($Expected)) {
+        throw "install.ps1 no contiene bootstrap remoto esperado: $Expected"
+    }
+    if (-not $InstallSh.Contains($Expected)) {
+        throw "install.sh no contiene bootstrap remoto esperado: $Expected"
+    }
+}
+
+foreach ($Expected in @("irm https://raw.githubusercontent.com/SCEPTICG/SCEPTIC-VSCODE", "curl -fsSL https://raw.githubusercontent.com/SCEPTICG/SCEPTIC-VSCODE")) {
+    if (-not $Readme.Contains($Expected)) {
+        throw "README no contiene comando rapido esperado: $Expected"
+    }
+}
+
 Get-ChildItem -Path (Join-Path $RepoRoot "config/User") -Recurse -Filter "*.json" |
     ForEach-Object { Assert-Json $_.FullName }
 
