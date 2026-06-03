@@ -1,0 +1,23 @@
+[
+  {
+    "key": "ctrl+alt+t",
+    "command": "workbench.action.terminal.toggleTerminal"
+  },
+  {
+    "key": "ctrl+alt+f",
+    "command": "editor.action.formatDocument",
+    "when": "editorHasDocumentFormattingProvider && editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "ctrl+alt+e",
+    "command": "workbench.view.explorer"
+  },
+  {
+    "key": "ctrl+alt+g",
+    "command": "workbench.view.scm"
+  },
+  {
+    "key": "ctrl+alt+p",
+    "command": "workbench.action.showCommands"
+  }
+]

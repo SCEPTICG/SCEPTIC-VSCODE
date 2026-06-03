@@ -1,0 +1,2 @@
+streetsidesoftware.code-spell-checker
+ms-kubernetes-tools.vscode-kubernetes-tools

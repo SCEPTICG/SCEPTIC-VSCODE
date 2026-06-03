@@ -1,0 +1,28 @@
+{
+  "CLI minima": {
+    "prefix": "py-cli",
+    "body": [
+      "from __future__ import annotations",
+      "",
+      "",
+      "def main() -> int:",
+      "    ${1:print(\"Hola\")}",
+      "    return 0",
+      "",
+      "",
+      "if __name__ == \"__main__\":",
+      "    raise SystemExit(main())"
+    ],
+    "description": "Entrada CLI minima para Python"
+  },
+  "Pathlib base": {
+    "prefix": "py-path",
+    "body": [
+      "from pathlib import Path",
+      "",
+      "",
+      "${1:path} = Path(\"${2:.}\").expanduser().resolve()"
+    ],
+    "description": "Crear Path resuelto con pathlib"
+  }
+}

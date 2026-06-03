@@ -1,0 +1,30 @@
+{
+  "Script estricto": {
+    "prefix": "ps-strict",
+    "body": [
+      "$ErrorActionPreference = \"Stop\"",
+      "",
+      "function Write-Info {",
+      "    param([string]$Message)",
+      "    Write-Host \"[info] $Message\"",
+      "}",
+      "",
+      "${1:# codigo}"
+    ],
+    "description": "Base de script PowerShell con errores estrictos"
+  },
+  "Funcion con parametro": {
+    "prefix": "ps-fn",
+    "body": [
+      "function ${1:Invoke-Task} {",
+      "    param(",
+      "        [Parameter(Mandatory)]",
+      "        [string]$${2:Name}",
+      "    )",
+      "",
+      "    ${3:# codigo}",
+      "}"
+    ],
+    "description": "Funcion PowerShell con parametro obligatorio"
+  }
+}

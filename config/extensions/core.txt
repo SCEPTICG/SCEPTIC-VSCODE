@@ -1,0 +1,10 @@
+ms-python.python
+ms-python.vscode-pylance
+charliermarsh.ruff
+ms-vscode.powershell
+redhat.vscode-yaml
+editorconfig.editorconfig
+yzhang.markdown-all-in-one
+DavidAnson.vscode-markdownlint
+pkief.material-icon-theme
+eamodio.gitlens
