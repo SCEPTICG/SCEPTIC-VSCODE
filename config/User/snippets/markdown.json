@@ -1,0 +1,38 @@
+{
+  "README tecnico": {
+    "prefix": "readme-tecnico",
+    "body": [
+      "# ${1:Nombre}",
+      "",
+      "## Proposito",
+      "",
+      "${2:Descripcion breve.}",
+      "",
+      "## Requisitos",
+      "",
+      "- ${3:Requisito}",
+      "",
+      "## Instalacion",
+      "",
+      "```bash",
+      "${4:comando}",
+      "```",
+      "",
+      "## Uso",
+      "",
+      "```bash",
+      "${5:comando}",
+      "```"
+    ],
+    "description": "Estructura base para README tecnico"
+  },
+  "Bloque de comandos": {
+    "prefix": "cmd-block",
+    "body": [
+      "```$1",
+      "$2",
+      "```"
+    ],
+    "description": "Bloque fenced para comandos o codigo"
+  }
+}

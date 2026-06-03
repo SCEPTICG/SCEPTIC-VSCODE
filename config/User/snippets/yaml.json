@@ -1,0 +1,27 @@
+{
+  "Docker Compose servicio": {
+    "prefix": "compose-service",
+    "body": [
+      "${1:servicio}:",
+      "  image: ${2:imagen}",
+      "  restart: unless-stopped",
+      "  ports:",
+      "    - \"${3:8080}:${4:80}\"",
+      "  environment:",
+      "    - ${5:VARIABLE=valor}"
+    ],
+    "description": "Bloque de servicio para Docker Compose"
+  },
+  "GitHub Actions job": {
+    "prefix": "gha-job",
+    "body": [
+      "${1:job}:",
+      "  runs-on: ubuntu-latest",
+      "  steps:",
+      "    - uses: actions/checkout@v4",
+      "    - name: ${2:Paso}",
+      "      run: ${3:comando}"
+    ],
+    "description": "Job basico de GitHub Actions"
+  }
+}

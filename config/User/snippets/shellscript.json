@@ -1,0 +1,27 @@
+{
+  "Script seguro": {
+    "prefix": "sh-safe",
+    "body": [
+      "#!/usr/bin/env bash",
+      "set -euo pipefail",
+      "",
+      "log() {",
+      "  printf '[info] %s\\n' \"$1\"",
+      "}",
+      "",
+      "${1:# codigo}"
+    ],
+    "description": "Base de script shell con modo estricto"
+  },
+  "Case uname": {
+    "prefix": "sh-uname",
+    "body": [
+      "case \"$(uname -s)\" in",
+      "  Darwin) ${1:# macOS} ;;",
+      "  Linux) ${2:# Linux} ;;",
+      "  *) printf 'Sistema no soportado: %s\\n' \"$(uname -s)\" >&2; exit 1 ;;",
+      "esac"
+    ],
+    "description": "Detectar sistema operativo con uname"
+  }
+}
