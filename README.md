@@ -16,6 +16,37 @@ terminal es poder abrir archivos o carpetas con `code`.
 
 ## Instalacion
 
+Instalacion rapida desde GitHub:
+
+Windows PowerShell:
+
+```powershell
+irm https://raw.githubusercontent.com/SCEPTICG/SCEPTIC-VSCODE/main/install.ps1 | iex
+```
+
+macOS/Linux:
+
+```bash
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/SCEPTICG/SCEPTIC-VSCODE/main/install.sh)"
+```
+
+Para probar una rama concreta antes de mezclarla en `main`, define
+`SCEPTIC_VSCODE_BRANCH`.
+
+Windows PowerShell:
+
+```powershell
+$env:SCEPTIC_VSCODE_BRANCH = "codex/configuracion-vscode-base"; irm https://raw.githubusercontent.com/SCEPTICG/SCEPTIC-VSCODE/codex/configuracion-vscode-base/install.ps1 | iex
+```
+
+macOS/Linux:
+
+```bash
+SCEPTIC_VSCODE_BRANCH=codex/configuracion-vscode-base sh -c "$(curl -fsSL https://raw.githubusercontent.com/SCEPTICG/SCEPTIC-VSCODE/codex/configuracion-vscode-base/install.sh)"
+```
+
+Instalacion desde una copia local del repo:
+
 Windows PowerShell:
 
 ```powershell

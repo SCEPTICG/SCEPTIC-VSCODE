@@ -15,7 +15,9 @@ foreach ($Arg in $args) {
     }
 }
 
-$RepoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$RepoUrl = if ($env:SCEPTIC_VSCODE_REPO) { $env:SCEPTIC_VSCODE_REPO } else { "https://github.com/SCEPTICG/SCEPTIC-VSCODE.git" }
+$Branch = if ($env:SCEPTIC_VSCODE_BRANCH) { $env:SCEPTIC_VSCODE_BRANCH } else { "main" }
+$RepoRoot = if ($PSScriptRoot) { $PSScriptRoot } else { (Get-Location).Path }
 $SourceUser = Join-Path $RepoRoot "config\User"
 $ExtensionRoot = Join-Path $RepoRoot "config\extensions"
 $TargetUser = Join-Path $env:APPDATA "Code\User"
@@ -69,7 +71,33 @@ if (-not $env:APPDATA) {
 }
 
 if (-not (Test-Path -LiteralPath $SourceUser)) {
-    throw "No existe la configuracion fuente: $SourceUser"
+    if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
+        throw "No existe la configuracion fuente y git no esta disponible para clonar el repo: $SourceUser"
+    }
+
+    $TempRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("sceptic-vscode-" + [System.Guid]::NewGuid().ToString("N"))
+    $TempRepo = Join-Path $TempRoot "repo"
+
+    try {
+        Invoke-ProfileAction "Clonar SCEPTIC-VSCODE desde $RepoUrl ($Branch)" {
+            New-Item -ItemType Directory -Force -Path $TempRoot | Out-Null
+            git clone --depth 1 --branch $Branch $RepoUrl $TempRepo
+            if ($LASTEXITCODE -ne 0) {
+                throw "No se pudo clonar el repositorio SCEPTIC-VSCODE."
+            }
+        }
+
+        $RepoRoot = $TempRepo
+        $SourceUser = Join-Path $RepoRoot "config\User"
+        $ExtensionRoot = Join-Path $RepoRoot "config\extensions"
+
+        if (-not (Test-Path -LiteralPath $SourceUser)) {
+            throw "El repo clonado no contiene config\User: $SourceUser"
+        }
+    }
+    catch {
+        throw
+    }
 }
 
 $CodeCommand = Get-Command code -ErrorAction SilentlyContinue
@@ -129,6 +157,10 @@ if (-not $NoExtensions -and $CodeCommand) {
 
 if ($Force) {
     Write-Step "Flag --force recibido. En esta version no cambia el comportamiento porque los backups ya protegen la configuracion anterior."
+}
+
+if ($TempRoot -and (Test-Path -LiteralPath $TempRoot)) {
+    Remove-Item -LiteralPath $TempRoot -Recurse -Force
 }
 
 Write-Step "Instalacion finalizada. Abre VSCode o ejecuta: code ."

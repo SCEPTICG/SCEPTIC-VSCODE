@@ -16,10 +16,21 @@ for arg in "$@"; do
   esac
 done
 
+repo_url="${SCEPTIC_VSCODE_REPO:-https://github.com/SCEPTICG/SCEPTIC-VSCODE.git}"
+branch="${SCEPTIC_VSCODE_BRANCH:-main}"
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source_user="$repo_root/config/User"
 extension_root="$repo_root/config/extensions"
 stamp="$(date +%Y%m%d%H%M%S)"
+temp_root=""
+
+cleanup() {
+  if [ -n "$temp_root" ] && [ -d "$temp_root" ]; then
+    rm -rf "$temp_root"
+  fi
+}
+
+trap cleanup EXIT
 
 case "$(uname -s)" in
   Darwin) target_user="$HOME/Library/Application Support/Code/User" ;;
@@ -74,8 +85,23 @@ install_extension_file() {
 }
 
 if [ ! -d "$source_user" ]; then
-  printf 'No existe la configuracion fuente: %s\n' "$source_user" >&2
-  exit 1
+  if ! command -v git >/dev/null 2>&1; then
+    printf 'No existe la configuracion fuente y git no esta disponible para clonar el repo: %s\n' "$source_user" >&2
+    exit 1
+  fi
+
+  temp_root="$(mktemp -d "${TMPDIR:-/tmp}/sceptic-vscode.XXXXXX")"
+  log "Clonar SCEPTIC-VSCODE desde $repo_url ($branch)"
+  git clone --depth 1 --branch "$branch" "$repo_url" "$temp_root/repo"
+
+  repo_root="$temp_root/repo"
+  source_user="$repo_root/config/User"
+  extension_root="$repo_root/config/extensions"
+
+  if [ ! -d "$source_user" ]; then
+    printf 'El repo clonado no contiene config/User: %s\n' "$source_user" >&2
+    exit 1
+  fi
 fi
 
 if command -v code >/dev/null 2>&1; then
