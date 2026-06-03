@@ -1,41 +1,42 @@
-# SCEPTIC-VSCODE Design
+# Diseno de SCEPTIC-VSCODE
 
-Date: 2026-06-03
+Fecha: 2026-06-03
 
-## Purpose
+## Proposito
 
-SCEPTIC-VSCODE is a standalone, reproducible Visual Studio Code profile for
-general multi-language work and infrastructure/devops tasks. The repository is
-the source of truth for the profile. VSCode Settings Sync may exist on a
-machine, but it is not part of this design and must not be required for a clean
-install.
+SCEPTIC-VSCODE es un perfil standalone y reproducible de Visual Studio Code
+para trabajo general multi-lenguaje y tareas de infraestructura/devops. El
+repositorio es la fuente de verdad del perfil. VSCode Settings Sync puede
+existir en una maquina, pero no forma parte de este diseno y no debe ser
+necesario para una instalacion limpia.
 
-The profile is independent from the existing Neovim and Zsh configurations.
-The only intentional terminal integration is support for opening files or
-folders from a terminal with the `code` command when VSCode exposes it.
+El perfil es independiente de las configuraciones existentes de Neovim y Zsh.
+La unica integracion intencional con la terminal es poder abrir archivos o
+carpetas con el comando `code` cuando VSCode lo exponga.
 
-## Scope
+## Alcance
 
-The profile covers:
+El perfil cubre:
 
-- User settings.
-- Keybindings.
+- Ajustes de usuario.
+- Atajos de teclado.
 - Snippets.
-- Extension lists.
-- Language-specific configuration.
-- Formatter and linter defaults where the required tool or extension is clear.
-- Windows, macOS, and Linux installation paths.
-- Idempotent install scripts with backups.
-- Doctor scripts for validation.
-- Export scripts for capturing current local VSCode configuration.
+- Listas de extensiones.
+- Configuracion especifica por lenguaje.
+- Valores por defecto de formato y linting cuando la herramienta o extension
+  necesaria este clara.
+- Rutas de instalacion para Windows, macOS y Linux.
+- Scripts de instalacion idempotentes con backups.
+- Scripts doctor para validacion.
+- Scripts de exportacion para capturar la configuracion local actual de VSCode.
 
-The profile does not target web application development as its main purpose.
-React, Vite, Next.js, Tailwind, and similar tools are not core dependencies.
-Basic HTML, CSS, JavaScript, and TypeScript editing may remain supported through
-VSCode defaults or general-purpose extensions, but they should not dominate the
-configuration.
+El perfil no tiene como objetivo principal el desarrollo de aplicaciones web.
+React, Vite, Next.js, Tailwind y herramientas similares no son dependencias
+centrales. La edicion basica de HTML, CSS, JavaScript y TypeScript puede seguir
+soportada mediante los valores por defecto de VSCode o extensiones generales,
+pero no debe dominar la configuracion.
 
-## Repository Layout
+## Estructura del repositorio
 
 ```text
 SCEPTIC-VSCODE/
@@ -68,117 +69,120 @@ SCEPTIC-VSCODE/
       plans/
 ```
 
-`config/User/` mirrors the user configuration files copied into VSCode's user
-configuration directory. Extension files are plain text lists with one extension
-identifier per line, so they are easy to audit and install with the `code` CLI.
+`config/User/` refleja los archivos de configuracion de usuario que se copiaran
+al directorio de configuracion de VSCode. Los archivos de extensiones son listas
+de texto plano con un identificador de extension por linea, para que sean
+faciles de auditar e instalar con la CLI `code`.
 
-## Platform Targets
+## Plataformas objetivo
 
-The installer must support Windows and macOS as first-class systems, with Linux
-handled through the same Unix-style installer where possible.
+El instalador debe soportar Windows y macOS como sistemas principales, con Linux
+cubierto mediante el mismo instalador tipo Unix cuando sea posible.
 
-Expected VSCode user configuration paths:
+Rutas esperadas de configuracion de usuario de VSCode:
 
 - Windows: `%APPDATA%\Code\User`
 - macOS: `~/Library/Application Support/Code/User`
 - Linux: `~/.config/Code/User`
 
-The scripts should detect the platform and fail with a clear message when the
-target path cannot be determined.
+Los scripts deben detectar la plataforma y fallar con un mensaje claro cuando
+no puedan determinar la ruta destino.
 
-## Profile Content
+## Contenido del perfil
 
-The profile should be sober, durable, and useful for repeated technical work.
-It should prefer clear defaults over decorative customization.
+El perfil debe ser sobrio, duradero y util para trabajo tecnico repetido. Debe
+preferir valores claros por defecto por encima de personalizacion decorativa.
 
-Primary languages and file types:
+Lenguajes y tipos de archivo principales:
 
 - Python.
 - PowerShell.
-- Bash and shell scripts.
-- JSON and JSONC.
+- Bash y scripts shell.
+- JSON y JSONC.
 - YAML.
 - TOML.
 - Markdown.
-- Dockerfile and Docker Compose.
-- Terraform and HCL.
-- Git configuration files and ignore files.
+- Dockerfile y Docker Compose.
+- Terraform y HCL.
+- Archivos de configuracion e ignore de Git.
 
-Settings should cover:
+Los ajustes deben cubrir:
 
-- Editor readability.
-- Sensible autosave behavior.
-- Reduced explorer noise.
-- Integrated terminal usability.
-- Git visibility.
-- Markdown editing comfort.
-- Language-specific formatter/linter defaults.
-- Minimal visual clutter.
+- Legibilidad del editor.
+- Autosave razonable.
+- Reduccion de ruido en el explorador.
+- Usabilidad de la terminal integrada.
+- Visibilidad de Git.
+- Comodidad al editar Markdown.
+- Valores de formato/linting especificos por lenguaje.
+- Minimo ruido visual.
 
-Keybindings should be few, memorable, and not Vim-like. They should prioritize
-opening the terminal, command palette use, formatting, search, and moving across
-panels.
+Los atajos de teclado deben ser pocos, memorables y no inspirados en Vim. Deben
+priorizar abrir la terminal, usar la paleta de comandos, formatear, buscar y
+moverse entre paneles.
 
-Snippets should provide practical templates for:
+Los snippets deben aportar plantillas practicas para:
 
-- README sections.
-- PowerShell scripts.
-- Bash scripts.
-- Python command-line entry points.
-- Docker Compose basics.
-- YAML blocks used in infra/devops workflows.
+- Secciones de README.
+- Scripts PowerShell.
+- Scripts Bash.
+- Entradas CLI minimas en Python.
+- Bases de Docker Compose.
+- Bloques YAML usados en flujos de infraestructura/devops.
 
-## Extensions
+## Extensiones
 
-Extensions are split into three lists:
+Las extensiones se dividen en tres listas:
 
-- `core.txt`: general-purpose essentials for the whole profile.
-- `infra.txt`: infrastructure/devops extensions.
-- `optional.txt`: useful extras installed only when requested.
+- `core.txt`: esenciales generales para todo el perfil.
+- `infra.txt`: extensiones de infraestructura/devops.
+- `optional.txt`: extras utiles instalados solo cuando se soliciten.
 
-The extension set should stay conservative and auditable. Avoid large extension
-packs unless there is a strong reason. Each extension included in the main
-lists should be documented in the README with a short reason.
+El conjunto de extensiones debe ser conservador y auditable. Hay que evitar
+packs grandes de extensiones salvo que exista una razon fuerte. Cada extension
+incluida en las listas principales debe documentarse en el README con un motivo
+breve.
 
-Likely core and infra categories:
+Categorias probables para core e infra:
 
-- Python and Pylance.
+- Python y Pylance.
 - PowerShell.
 - YAML.
 - Docker.
 - Dev Containers.
 - Remote SSH.
-- Git enhancement.
-- Markdown tooling.
+- Mejora de Git.
+- Herramientas de Markdown.
 - EditorConfig.
-- ShellCheck integration.
-- Terraform/HCL support.
+- Integracion con ShellCheck.
+- Soporte Terraform/HCL.
 
-## Installers
+## Instaladores
 
-`install.ps1` and `install.sh` should share the same user-facing contract:
+`install.ps1` e `install.sh` deben compartir el mismo contrato visible para el
+usuario:
 
 ```text
---dry-run          show planned actions without changing files
---no-extensions    apply config but skip extension installation
---with-optional    install extensions/optional.txt as well
---force            apply even when local differences are detected
+--dry-run          muestra acciones previstas sin cambiar archivos
+--no-extensions    aplica configuracion pero no instala extensiones
+--with-optional    instala tambien extensions/optional.txt
+--force            aplica aunque se detecten diferencias locales
 ```
 
-Installer behavior:
+Comportamiento del instalador:
 
-- Detect operating system and VSCode user configuration path.
-- Check whether the `code` command exists in `PATH`.
-- Apply configuration files even when `code` is unavailable.
-- Show clear instructions when `code` is missing.
-- Back up existing `settings.json`, `keybindings.json`, and `snippets/` before
-  replacement.
-- Copy files from `config/User/` to the detected VSCode user directory.
-- Install extensions with `code --install-extension`.
-- Avoid reinstalling extensions when installed extensions can be detected.
-- Keep repeated runs safe and predictable.
+- Detectar sistema operativo y ruta de configuracion de usuario de VSCode.
+- Comprobar si el comando `code` existe en `PATH`.
+- Aplicar archivos de configuracion aunque `code` no este disponible.
+- Mostrar instrucciones claras cuando falte `code`.
+- Hacer backup de `settings.json`, `keybindings.json` y `snippets/` antes de
+  reemplazarlos.
+- Copiar archivos desde `config/User/` a la ruta de usuario detectada.
+- Instalar extensiones con `code --install-extension`.
+- Evitar reinstalar extensiones cuando se puedan detectar las ya instaladas.
+- Mantener ejecuciones repetidas seguras y predecibles.
 
-Backup names should include timestamps, for example:
+Los backups deben incluir timestamp, por ejemplo:
 
 ```text
 settings.json.backup.20260603123000
@@ -186,64 +190,73 @@ keybindings.json.backup.20260603123000
 snippets.backup.20260603123000
 ```
 
-## Doctor Scripts
+## Scripts doctor
 
-`scripts/doctor.ps1` and `scripts/doctor.sh` should inspect the local
-environment without changing it.
+`scripts/doctor.ps1` y `scripts/doctor.sh` deben inspeccionar el entorno local
+sin cambiarlo.
 
-They should report:
+Deben informar de:
 
-- Detected operating system.
-- Detected VSCode user configuration path.
-- Whether the `code` command is available.
-- VSCode version when available.
-- Installed extension count when available.
-- Whether the expected profile files exist in the target directory.
-- Any missing recommended external tools that the README says are useful.
+- Sistema operativo detectado.
+- Ruta de configuracion de usuario de VSCode detectada.
+- Si el comando `code` esta disponible.
+- Version de VSCode cuando este disponible.
+- Numero de extensiones instaladas cuando este disponible.
+- Si los archivos esperados del perfil existen en la ruta destino.
+- Herramientas externas recomendadas que falten y que el README declare como
+  utiles.
 
-## Export Scripts
+## Scripts de exportacion
 
-`scripts/export-current.ps1` and `scripts/export-current.sh` should help capture
-a local VSCode setup for review. They should copy the current user settings,
-keybindings, snippets, and installed extension identifiers into an export
-directory, without automatically overwriting the repo profile.
+`scripts/export-current.ps1` y `scripts/export-current.sh` deben ayudar a
+capturar una configuracion local de VSCode para revisarla. Deben copiar los
+ajustes de usuario, atajos, snippets e identificadores de extensiones instaladas
+a un directorio de exportacion, sin sobrescribir automaticamente el perfil del
+repo.
 
-The export workflow is for migration and review, not for blind sync.
+El flujo de exportacion sirve para migracion y revision, no para sincronizacion
+ciega.
 
-## Documentation
+## Documentacion
 
-`README.md` should include:
+`README.md` debe incluir:
 
-- Purpose and scope.
-- Installation commands for Windows, macOS, and Linux.
-- Supported flags.
-- Repository structure.
-- Extension list with short reasons.
-- How to re-apply the profile.
-- How to restore backups.
-- How to confirm `code archivo` or `code .` works from a terminal.
-- Notes explaining that this profile is independent from Neovim and Zsh.
+- Proposito y alcance.
+- Comandos de instalacion para Windows, macOS y Linux.
+- Flags soportados.
+- Estructura del repositorio.
+- Lista de extensiones con motivos breves.
+- Como re-aplicar el perfil.
+- Como restaurar backups.
+- Como confirmar que `code archivo` o `code .` funcionan desde terminal.
+- Notas que expliquen que este perfil es independiente de Neovim y Zsh.
 
-## Verification
+Toda la documentacion, mensajes visibles de scripts y comentarios orientados al
+usuario deben escribirse en castellano. Se mantienen en ingles solo nombres
+tecnicos, identificadores de VSCode, comandos, flags, rutas y convenciones del
+ecosistema cuando traducirlos reste claridad.
 
-Initial verification should include:
+## Verificacion
 
-- Running each installer with `--dry-run`.
-- Validating JSON/JSONC files where practical.
-- Checking expected files exist.
-- Running doctor scripts after installation.
+La verificacion inicial debe incluir:
 
-The implementation plan should keep validation lightweight but real. The goal is
-to catch broken paths, malformed config files, and missing script behavior
-before the profile is used on Windows or macOS.
+- Ejecutar cada instalador con `--dry-run`.
+- Validar archivos JSON/JSONC cuando sea practico.
+- Comprobar que existen los archivos esperados.
+- Ejecutar scripts doctor tras la instalacion.
 
-## Decisions
+El plan de implementacion debe mantener la validacion ligera pero real. El
+objetivo es detectar rutas rotas, archivos de configuracion mal formados y
+comportamiento ausente en scripts antes de usar el perfil en Windows o macOS.
 
-- The repository is the source of truth.
-- VSCode Settings Sync is not required.
-- Windows and macOS are primary targets.
-- Linux support should be included through the Unix installer.
-- The profile is general multi-language plus infra/devops.
-- Web development frameworks are out of core scope.
-- Neovim and Zsh integrations are out of scope, except for opening files from
-  the terminal with `code`.
+## Decisiones
+
+- El repositorio es la fuente de verdad.
+- VSCode Settings Sync no es necesario.
+- Windows y macOS son objetivos principales.
+- Linux debe estar soportado mediante el instalador Unix.
+- El perfil es general multi-lenguaje mas infraestructura/devops.
+- Los frameworks de desarrollo web quedan fuera del nucleo.
+- Las integraciones con Neovim y Zsh quedan fuera de alcance, excepto abrir
+  archivos desde la terminal con `code`.
+- La documentacion del proyecto se escribe en castellano.
