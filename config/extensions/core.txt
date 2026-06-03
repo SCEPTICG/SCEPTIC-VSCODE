@@ -4,6 +4,7 @@ charliermarsh.ruff
 ms-vscode.powershell
 redhat.vscode-yaml
 editorconfig.editorconfig
+dracula-theme.theme-dracula
 yzhang.markdown-all-in-one
 DavidAnson.vscode-markdownlint
 pkief.material-icon-theme
