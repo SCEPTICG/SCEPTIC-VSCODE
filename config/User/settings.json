@@ -17,10 +17,7 @@
   "editor.minimap.enabled": false,
   "editor.renderWhitespace": "boundary",
   "editor.renderControlCharacters": false,
-  "editor.rulers": [
-    88,
-    120
-  ],
+  "editor.rulers": [],
   "editor.wordWrap": "on",
   "editor.stickyScroll.enabled": true,
   "editor.bracketPairColorization.enabled": true,
